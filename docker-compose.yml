@@ -1,0 +1,22 @@
+
+services:
+  python-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: python-service
+    volumes:
+      - ./TgUserDetails.py:/app/TgUserDetails.py
+      - ./flask_service.py:/app/flask_service.py
+      - ./sessions:/app/sessions
+    networks:
+      - digital_network
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TELEGRAM_API_ID=21395093
+      - TELEGRAM_API_HASH=b2a589c0c18b70b7ba3c8a6801569146
+    entrypoint: ["python", "/app/flask_service.py"]
+
+networks:
+  digital_network:
+    external: true
