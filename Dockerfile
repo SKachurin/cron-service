@@ -1,8 +1,8 @@
 # Use a lightweight base image
 FROM alpine:latest
 
-# Install curl and cron
-RUN apk add --no-cache curl tzdata cron
+# Install curl and dcron
+RUN apk add --no-cache curl tzdata dcron
 
 # Set the working directory
 WORKDIR /app
@@ -16,8 +16,8 @@ RUN chmod +x /trigger_command.sh
 ENV TZ=UTC
 
 # Set the environment variable for the secret token
-# This will be overridden by the environment variable from GitHub Actions
+# This will be overridden by the environment variable from the environment
 ENV SECRET_TOKEN=default_token
 
-# Start cron when the container starts
+# Start dcron when the container starts
 CMD ["crond", "-f"]
