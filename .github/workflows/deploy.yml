@@ -28,9 +28,9 @@ jobs:
 
       - name: Run deploy script on server
         run: |
-          ssh root@5.180.181.53 '
-          export SECRET_TOKEN="${{ secrets.SECRET_TOKEN }}";
-          cd /var/www/;
+          ssh root@5.180.181.53 "
+          export SECRET_TOKEN='${{ secrets.SECRET_TOKEN }}';
+          cd /var/www/cron-service;
           chmod +x deploy_cron.sh;
-          bash deploy_cron.sh;
-          '
+          ./deploy_cron.sh;
+          "
