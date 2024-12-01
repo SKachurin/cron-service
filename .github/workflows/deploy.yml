@@ -1,0 +1,36 @@
+name: Deploy Cron Service
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add server to known hosts
+        run: |
+          ssh-keyscan -H 5.180.181.53 >> ~/.ssh/known_hosts 
+
+      - name: Copy files to server (Optional if building on server)
+        run: |
+          rsync -avz --delete ./ root@5.180.181.53:/var/www/cron-service/
+
+      - name: Run deploy script on server
+        run: |
+          ssh root@5.180.181.53 '
+          export SECRET_TOKEN="${{ secrets.SECRET_TOKEN }}";
+          cd /var/www/cron-service/;
+          chmod +x deploy.sh;
+          bash deploy.sh;
+          '
