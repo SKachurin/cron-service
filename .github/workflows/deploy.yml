@@ -26,11 +26,15 @@ jobs:
         run: |
           rsync -avz --delete ./ root@5.180.181.53:/var/www/cron-service/
 
+      - name: Verify copied files on server
+        run: |
+          ssh -o StrictHostKeyChecking=no root@5.180.181.53 'ls -la /var/www/cron-service'    
+
       - name: Run deploy script on server
         run: |
-          ssh root@5.180.181.53 "
+          ssh -o StrictHostKeyChecking=no root@5.180.181.53 '
           export SECRET_TOKEN='${{ secrets.SECRET_TOKEN }}';
           cd /var/www;
           chmod +x deploy_cron.sh;
           ./deploy_cron.sh;
-          "
+          '

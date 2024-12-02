@@ -5,16 +5,17 @@ FROM ubuntu:20.04
 RUN apt-get update && apt-get install -y \
     cron \
     curl \
-    tzdata
+    tzdata \
+    bash
 
 # Set the timezone
 ENV TZ=UTC
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Copy the crontab file and the trigger script
+# Copy the crontab file and the scripts directory
 COPY crontab /etc/cron.d/cronjob
-COPY trigger_command.sh /trigger_command.sh
-RUN chmod +x /trigger_command.sh
+COPY scripts/ /scripts/
+RUN chmod +x /scripts/*.sh
 
 # Give execution rights on the cron job
 RUN chmod 0644 /etc/cron.d/cronjob
@@ -26,4 +27,4 @@ RUN crontab /etc/cron.d/cronjob
 RUN touch /var/log/cron.log
 
 # Expose the logs to stdout
-CMD cron && tail -f /var/log/cron.log
+CMD ["cron", "-f", "-L", "/var/log/cron.log"]
