@@ -20,4 +20,7 @@ ENV TZ=UTC
 ENV SECRET_TOKEN=default_token
 
 # Start dcron when the container starts
-CMD ["crond", "-f"]
+#CMD ["crond", "-f"]
+
+# Start dcron with debug logging
+CMD ["crond", "-f", "-l", "8"]
