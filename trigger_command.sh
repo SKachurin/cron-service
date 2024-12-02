@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Define the URL of the backend endpoint
 BACKEND_URL="http://digital-backend/cron/trigger-command"

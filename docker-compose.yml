@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  cron-service:
+    build:
+      context: ./cron-service
+      dockerfile: Dockerfile
+    container_name: cron-service
+    environment:
+      SECRET_TOKEN: "${SECRET_TOKEN}"
+    networks:
+      - digital_network
+
+networks:
+  digital_network:
+    name: digital_network
+    driver: bridge

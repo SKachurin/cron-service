@@ -1,28 +1,29 @@
-FROM alpine:latest
+# Use Ubuntu as the base image
+FROM ubuntu:20.04
 
-# Install curl and cronie
-RUN apk add --no-cache curl tzdata cronie
+# Install necessary packages
+RUN apt-get update && apt-get install -y \
+    cron \
+    curl \
+    tzdata
 
-# Set the working directory
-WORKDIR /app
+# Set the timezone
+ENV TZ=UTC
+RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Copy the crontab file and trigger script
-COPY crontab /etc/crontabs/root
+# Copy the crontab file and the trigger script
+COPY crontab /etc/cron.d/cronjob
 COPY trigger_command.sh /trigger_command.sh
 RUN chmod +x /trigger_command.sh
 
-# Create /var/log directory
-RUN mkdir -p /var/log
+# Give execution rights on the cron job
+RUN chmod 0644 /etc/cron.d/cronjob
 
-# Copy the entrypoint script
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Apply cron job
+RUN crontab /etc/cron.d/cronjob
 
-# Set the timezone if needed
-ENV TZ=UTC
+# Create the log file to be able to run tail
+RUN touch /var/log/cron.log
 
-# Set the environment variable for the secret token
-ENV SECRET_TOKEN=default_token
-
-# Set the entrypoint
-ENTRYPOINT ["/entrypoint.sh"]
+# Expose the logs to stdout
+CMD cron && tail -f /var/log/cron.log
