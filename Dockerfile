@@ -1,4 +1,3 @@
-# Use a lightweight base image
 FROM alpine:latest
 
 # Install curl and cronie
@@ -15,11 +14,15 @@ RUN chmod +x /trigger_command.sh
 # Create /var/log directory
 RUN mkdir -p /var/log
 
+# Copy the entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Set the timezone if needed
 ENV TZ=UTC
 
 # Set the environment variable for the secret token
 ENV SECRET_TOKEN=default_token
 
-# Start crond when the container starts
-CMD ["crond", "-f", "-L", "/var/log/cron.log", "-d", "8"]
+# Set the entrypoint
+ENTRYPOINT ["/entrypoint.sh"]
