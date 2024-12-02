@@ -2,6 +2,8 @@ version: '3.8'
 
 services:
   cron-service:
+    image: alpine:3.11
+    command: /usr/local/startup.sh && crond -f -l 8
     build:
       context: ./cron-service
       dockerfile: Dockerfile

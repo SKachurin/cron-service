@@ -1,1 +1,1 @@
-*/2 * * * * root /scripts/trigger_command.sh >> /var/log/cron.log 2>&1
+*/2 * * * * /scripts/trigger_command.sh >> /var/log/cron.log 2>&1
