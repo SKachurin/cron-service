@@ -1,8 +1,8 @@
 # Use a lightweight base image
 FROM alpine:latest
 
-# Install curl and dcron
-RUN apk add --no-cache curl tzdata dcron
+# Install curl and cronie
+RUN apk add --no-cache curl tzdata cronie
 
 # Set the working directory
 WORKDIR /app
@@ -12,15 +12,14 @@ COPY crontab /etc/crontabs/root
 COPY trigger_command.sh /trigger_command.sh
 RUN chmod +x /trigger_command.sh
 
+# Create /var/log directory
+RUN mkdir -p /var/log
+
 # Set the timezone if needed
 ENV TZ=UTC
 
 # Set the environment variable for the secret token
-# This will be overridden by the environment variable from the environment
 ENV SECRET_TOKEN=default_token
 
-# Start dcron when the container starts
-#CMD ["crond", "-f"]
-
-# Start dcron with debug logging
-CMD ["crond", "-f", "-l", "8"]
+# Start crond when the container starts
+CMD ["crond", "-f", "-l", "8", "-L", "/var/log/cron.log"]
