@@ -27,4 +27,4 @@ RUN crontab /etc/cron.d/cronjob
 RUN touch /var/log/cron.log
 
 # Expose the logs to stdout
-CMD ["cron", "-f", "-L", "/var/log/cron.log"]
+CMD ["bash", "-c", "cron -f /var/log/cron.log"]
