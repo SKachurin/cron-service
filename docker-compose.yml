@@ -2,19 +2,17 @@ version: '3.8'
 
 services:
   cron-service:
-    image: alpine:3.11
-    command: /usr/local/startup.sh && crond -f -l 8
     build:
-      context: ./cron-service
+      context: .
       dockerfile: Dockerfile
     container_name: cron-service
     environment:
-      SECRET_TOKEN: "${SECRET_TOKEN}" # Pass secrets securely
+      SECRET_TOKEN: "${SECRET_TOKEN}"
     networks:
       - digital_network
     volumes:
-      - ./scripts:/scripts # Mount script folder
-      - ./logs:/var/log    # Mount logs folder
+      - ./scripts:/scripts
+      - ./logs:/var/log
     restart: unless-stopped
 
 networks:
