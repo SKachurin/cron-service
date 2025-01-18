@@ -1,6 +1,6 @@
 SHELL=/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
-*/5 * * * * root /scripts/trigger_command.sh >> /var/log/cron.log 2>&1
+*/5 * * * * root (date +"%Y-%m-%d %H:%M:%S"; /scripts/trigger_command.sh) >> /var/log/cron.log 2>&1
 
 # Ensure there's a newline at the end of the file

@@ -10,7 +10,7 @@ fi
 SECRET_TOKEN="$SECRET_TOKEN"
 
 # Define the URL of the backend endpoint
-BACKEND_URL="http://digital-backend/cron/five-minutes"
+BACKEND_URL="http://digital-backend:9000/cron/five-minutes"
 
 # Log the time and action
 echo "$(date): Attempting to POST to $BACKEND_URL"
