@@ -34,8 +34,6 @@ RUN chown root:root /etc/cron.d/cronjob
 RUN touch /var/log/cron.log
 RUN chmod 0666 /var/log/cron.log
 
-# Expose cron logs to stdout by symlinking
-RUN ln -sf /dev/stdout /var/log/cron.log
 
 # Start cron in the foreground
 CMD ["cron", "-f"]
