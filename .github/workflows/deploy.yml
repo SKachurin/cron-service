@@ -32,9 +32,10 @@ jobs:
 
       - name: Run deploy script on server
         run: |
-          ssh -o StrictHostKeyChecking=no root@5.180.181.53 '
-          export SECRET_TOKEN="${{ secrets.SECRET_TOKEN }}";
+          ssh -o StrictHostKeyChecking=no root@5.180.181.53 "
+          export SECRET_TOKEN='${{ secrets.SECRET_TOKEN }}';
+          echo 'On the server, SECRET_TOKEN is:' \$SECRET_TOKEN;
           cd /var/www;
           chmod +x deploy_cron.sh;
           ./deploy_cron.sh;
-          '
+          "
