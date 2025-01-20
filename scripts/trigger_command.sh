@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Source the environment file that has SECRET_TOKEN
+. /env.sh
+
 echo "$(date): trigger_command.sh sees SECRET_TOKEN='$SECRET_TOKEN'" >> /var/log/cron.log
 
 # Check if SECRET_TOKEN is set
