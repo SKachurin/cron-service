@@ -1,6 +1,7 @@
 SHELL=/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
+*/1 * * * * root . /env.sh && echo "$(date) Inside cron: SECRET_TOKEN=$SECRET_TOKEN" >> /var/log/cron.log 2>&1
 */5 * * * * root date +"%Y-%m-%d %H:%M:%S" >> /var/log/cron.log 2>&1
 */5 * * * * root . /env.sh && /scripts/trigger_command.sh >> /var/log/cron.log 2>&1
 

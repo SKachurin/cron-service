@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+echo "$(date): trigger_command.sh sees SECRET_TOKEN='$SECRET_TOKEN'" >> /var/log/cron.log
+
 # Check if SECRET_TOKEN is set
 if [ -z "$SECRET_TOKEN" ]; then
   echo "$(date): SECRET_TOKEN is not set"
