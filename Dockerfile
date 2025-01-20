@@ -35,5 +35,5 @@ RUN touch /var/log/cron.log
 RUN chmod 0666 /var/log/cron.log
 
 
-# Start cron in the foreground
-CMD ["cron", "-f"]
+# The default command is replaced by your script
+ENTRYPOINT ["/scripts/entrypoint.sh"]
